@@ -3,11 +3,12 @@ using RealEstateAgency.Models;
 
 namespace RealEstateAgency.Data
 {
-    public class UserDataContext : DbContext
+    public class AppDataContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Offer> Offers { get; set; }
         
-        public UserDataContext(DbContextOptions<UserDataContext> options) : base(options)
+        public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
         {
 
         }

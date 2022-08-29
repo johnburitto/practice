@@ -8,53 +8,53 @@ namespace RealEstateAgency.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class OfferController : ControllerBase
     {
-        private readonly AppDataContext _context;
+        private AppDataContext _context; 
 
-        public UserController(AppDataContext context)
+        public OfferController(AppDataContext context)
         {
             _context = context;
         }
 
         #region CRUD
         [HttpGet]
-        public async Task<IEnumerable<User>> Get()
+        public async Task<IEnumerable<Offer>> Get()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Offers.ToListAsync();
         }
 
         [HttpGet("get/{id}")]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Offer), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var offer = await _context.Offers.FindAsync(id);
 
-            return user == null ? NotFound() : Ok(user);
+            return offer == null ? NotFound() : Ok(offer);
         }
 
         [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Create(Offer offer)
         {
-            await _context.AddAsync(user);
+            await _context.Offers.AddAsync(offer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = user.id }, user);
+            return CreatedAtAction(nameof(GetById), new { id = offer.id }, offer);
         }
 
         [HttpPut("update/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(int id, User user)
+        public async Task<IActionResult> Update(int id, Offer offer)
         {
-            if (id != user.id)
+            if (id != offer.id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(offer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -65,14 +65,14 @@ namespace RealEstateAgency.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            var userToDelete = await _context.Users.FindAsync(id);
+            var offerToDelete = await _context.Offers.FindAsync(id);
 
-            if (userToDelete == null)
+            if (offerToDelete == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(userToDelete);
+            _context.Offers.Remove(offerToDelete);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -80,14 +80,10 @@ namespace RealEstateAgency.Controllers
         #endregion
 
         #region Query
-        [HttpGet("get/{login}/{password}")]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetByLoginAndPassword(string login, string password)
+        [HttpGet("user/{id}")]
+        public async Task<IEnumerable<Offer>> GetByUser(int id)
         {
-            var user = _context.Users.FromSqlRaw($"select * from keys where login = \'{login}\' and password = \'{password}\'").FirstOrDefault();
-
-            return user == null ? NotFound() : Ok(user);
+            return await _context.Offers.FromSqlRaw($"select * from offers where \"user\" = {id}").ToListAsync();
         }
         #endregion
     }
