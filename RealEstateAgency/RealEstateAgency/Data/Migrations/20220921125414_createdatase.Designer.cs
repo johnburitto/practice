@@ -12,7 +12,7 @@ using RealEstateAgency.Data;
 namespace RealEstateAgency.Data.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20220921115020_createdatase")]
+    [Migration("20220921125414_createdatase")]
     partial class createdatase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,43 @@ namespace RealEstateAgency.Data.Migrations
                             price = 3500,
                             square = 3.0,
                             title = "Квартира 416(3)",
+                            userid = 1
+                        });
+                });
+
+            modelBuilder.Entity("RealEstateAgency.Models.Review", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<int>("offerid")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("review")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<int>("userid")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("offerid");
+
+                    b.HasIndex("userid");
+
+                    b.ToTable("reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            offerid = 1,
+                            review = "Повний дрейн",
                             userid = 1
                         });
                 });
@@ -155,9 +192,37 @@ namespace RealEstateAgency.Data.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("RealEstateAgency.Models.Review", b =>
+                {
+                    b.HasOne("RealEstateAgency.Models.Offer", "offer")
+                        .WithMany("reviews")
+                        .HasForeignKey("offerid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Review_OfferId");
+
+                    b.HasOne("RealEstateAgency.Models.User", "user")
+                        .WithMany("reviews")
+                        .HasForeignKey("userid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Review_UserId");
+
+                    b.Navigation("offer");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("RealEstateAgency.Models.Offer", b =>
+                {
+                    b.Navigation("reviews");
+                });
+
             modelBuilder.Entity("RealEstateAgency.Models.User", b =>
                 {
                     b.Navigation("offers");
+
+                    b.Navigation("reviews");
                 });
 #pragma warning restore 612, 618
         }

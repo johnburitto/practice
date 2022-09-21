@@ -54,6 +54,33 @@ namespace RealEstateAgency.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "reviews",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    review = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    offerid = table.Column<int>(type: "integer", nullable: false),
+                    userid = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_reviews", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Review_OfferId",
+                        column: x => x.offerid,
+                        principalTable: "offers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Review_UserId",
+                        column: x => x.userid,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "id", "email", "firstname", "lastname", "login", "middlename", "password", "role", "telephone" },
@@ -64,14 +91,32 @@ namespace RealEstateAgency.Data.Migrations
                 columns: new[] { "id", "buytype", "description", "offertype", "price", "square", "title", "userid" },
                 values: new object[] { 1, 2, "Дрейн, що сказати", 0, 3500, 3.0, "Квартира 416(3)", 1 });
 
+            migrationBuilder.InsertData(
+                table: "reviews",
+                columns: new[] { "id", "offerid", "review", "userid" },
+                values: new object[] { 1, 1, "Повний дрейн", 1 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_offers_userid",
                 table: "offers",
+                column: "userid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_reviews_offerid",
+                table: "reviews",
+                column: "offerid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_reviews_userid",
+                table: "reviews",
                 column: "userid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "reviews");
+
             migrationBuilder.DropTable(
                 name: "offers");
 

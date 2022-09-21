@@ -8,6 +8,9 @@ namespace RealEstateAgency.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Offer> Offers { get; set; }
+        public DbSet<Review> Reviews { get; set; }        
+        public DbSet<Realtor> Realtors { get; set; }
+        public DbSet<Agency> Agencies { get; set; }
         
         public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
         {
@@ -19,6 +22,9 @@ namespace RealEstateAgency.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new OfferConfiguration());
+            modelBuilder.ApplyConfiguration(new ReviewConfiguration());            
+            modelBuilder.ApplyConfiguration(new RealtorConfiguration());
+            modelBuilder.ApplyConfiguration(new AgencyConfiguration());
         }
     }
 }
