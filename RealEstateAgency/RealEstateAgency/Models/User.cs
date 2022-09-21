@@ -2,7 +2,7 @@
 
 namespace RealEstateAgency.Models
 {
-    [Table("keys")]
+    [Table("users")]
     public class User
     {
         // просто ненавиджу, коли вони будуть так виглядати(((
@@ -15,6 +15,7 @@ namespace RealEstateAgency.Models
         public string login { get; set; }
         public string password { get; set; }
         public Role role { get; set; }
+        public List<Offer> offers { get; set; }
         
         public enum Role
         {

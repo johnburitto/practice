@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Data;
 using RealEstateAgency.Models;
@@ -18,7 +17,7 @@ namespace RealEstateAgency.Controllers
         }
 
         #region CRUD
-        [HttpGet]
+        [HttpGet("get")]
         public async Task<IEnumerable<Offer>> Get()
         {
             return await _context.Offers.ToListAsync();
@@ -83,7 +82,7 @@ namespace RealEstateAgency.Controllers
         [HttpGet("user/{id}")]
         public async Task<IEnumerable<Offer>> GetByUser(int id)
         {
-            return await _context.Offers.FromSqlRaw($"select * from offers where \"user\" = {id}").ToListAsync();
+            return await _context.Offers.FromSqlRaw($"select * from offers where \"userid\" = {id}").ToListAsync();
         }
         #endregion
     }

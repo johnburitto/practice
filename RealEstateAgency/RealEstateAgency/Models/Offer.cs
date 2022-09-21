@@ -12,7 +12,8 @@ namespace RealEstateAgency.Models
         public double square { get; set; }
         public OfferType offertype { get; set; }
         public BuyType buytype { get; set; }
-        public int user { get; set; }
+        public int? userid { get; set; }
+        public User user { get; set; }
 
         public enum OfferType
         {

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Data;
 using RealEstateAgency.Models;
@@ -18,7 +17,7 @@ namespace RealEstateAgency.Controllers
         }
 
         #region CRUD
-        [HttpGet]
+        [HttpGet("get")]
         public async Task<IEnumerable<User>> Get()
         {
             return await _context.Users.ToListAsync();
@@ -85,7 +84,7 @@ namespace RealEstateAgency.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByLoginAndPassword(string login, string password)
         {
-            var user = _context.Users.FromSqlRaw($"select * from keys where login = \'{login}\' and password = \'{password}\'").FirstOrDefault();
+            var user = _context.Users.FromSqlRaw($"select * from users where login = \'{login}\' and password = \'{password}\'").FirstOrDefault();
 
             return user == null ? NotFound() : Ok(user);
         }
