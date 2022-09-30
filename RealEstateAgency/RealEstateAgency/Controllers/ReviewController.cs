@@ -77,5 +77,13 @@ namespace RealEstateAgency.Controllers
             return NoContent();
         }
         #endregion
+
+        #region Query
+        [HttpGet("offer/{id}")]
+        public async Task<IEnumerable<Review>> GetByOfferId(int id)
+        {
+            return await _context.Reviews.FromSqlRaw($"select * from reviews where \"offerid\" = {id}").ToListAsync();
+        }
+        #endregion
     }
 }

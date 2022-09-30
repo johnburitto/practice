@@ -11,6 +11,5 @@ namespace RealEstateAgency.Models
         public string lastname { get; set; }
         public int experience { get; set; }
         public int? agencyid { get; set; }
-        public Agency agency { get; set; }
     }
 }

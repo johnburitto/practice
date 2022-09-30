@@ -7,6 +7,5 @@ namespace RealEstateAgency.Models
     {
         public int id { get; set; }
         public string name { get; set; }
-        public List<Realtor> realtors { get; set; }
     }
 }

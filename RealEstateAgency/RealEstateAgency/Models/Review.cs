@@ -9,7 +9,5 @@ namespace RealEstateAgency.Models
         public string review { get; set; }
         public int? offerid { get; set; }
         public int? userid { get; set; }
-        public Offer offer { get; set; }
-        public User user { get; set; }
     }
 }

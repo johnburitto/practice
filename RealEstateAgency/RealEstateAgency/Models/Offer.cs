@@ -13,8 +13,6 @@ namespace RealEstateAgency.Models
         public OfferType offertype { get; set; }
         public BuyType buytype { get; set; }
         public int? userid { get; set; }
-        public User user { get; set; }
-        public List<Review> reviews { get; set; }
 
         public enum OfferType
         {

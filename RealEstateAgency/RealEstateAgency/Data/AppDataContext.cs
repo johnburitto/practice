@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RealEstateAgency.Configurations;
 using RealEstateAgency.Models;
 
 namespace RealEstateAgency.Data
@@ -15,16 +14,6 @@ namespace RealEstateAgency.Data
         public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
         {
 
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new OfferConfiguration());
-            modelBuilder.ApplyConfiguration(new ReviewConfiguration());            
-            modelBuilder.ApplyConfiguration(new RealtorConfiguration());
-            modelBuilder.ApplyConfiguration(new AgencyConfiguration());
         }
     }
 }
